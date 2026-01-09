@@ -10,7 +10,6 @@ export default function CardHero() {
       }}
     >
 
-      {/* Item 1 */}
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
         <View
           style={{
@@ -33,13 +32,12 @@ export default function CardHero() {
           <Text style={{ fontWeight: '600', fontSize: 14 }}>
             Você é o dono dos seus dados
           </Text>
-          <Text style={{ fontSize: 12, color: '#555', marginTop: 2 }}>
+          <Text style={{ fontSize: 12, color: '#555', marginTop: 2, fontWeight: 500 }}>
             Todas as suas informações ficam salvas com segurança no seu dispositivo.
           </Text>
         </View>
       </View>
 
-      {/* Item 2 */}
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
         <View
           style={{
@@ -62,13 +60,12 @@ export default function CardHero() {
           <Text style={{ fontWeight: '600', fontSize: 14 }}>
             Privacidade absoluta
           </Text>
-          <Text style={{ fontSize: 12, color: '#555', marginTop: 2 }}>
+          <Text style={{ fontSize: 12, color: '#555', marginTop: 2, fontWeight: 500 }}>
             Nada é compartilhado com terceiros sem sua permissão explícita.
           </Text>
         </View>
       </View>
 
-      {/* Item 3 */}
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <View
           style={{
@@ -91,7 +88,7 @@ export default function CardHero() {
           <Text style={{ fontWeight: '600', fontSize: 14 }}>
             Organização, não diagnóstico
           </Text>
-          <Text style={{ fontSize: 12, color: '#555', marginTop: 2 }}>
+          <Text style={{ fontSize: 12, color: '#555', marginTop: 2, fontWeight: 500 }}>
             Este app ajuda a organizar, mas não realiza diagnósticos médicos.
           </Text>
         </View>
