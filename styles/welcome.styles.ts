@@ -3,15 +3,9 @@ import { Dimensions, StyleSheet } from "react-native";
 const { height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    flexGrow: 1,
-  },
-
   imgContainer: {
-    position: "relative",
+    height: height * 0.58, 
     width: "100%",
-    height: height * 0.65,
   },
 
   bgImage: {
@@ -24,5 +18,12 @@ export const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: 200,
+  },
+
+  content: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    justifyContent: "flex-start",
   },
 });

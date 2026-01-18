@@ -1,12 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
-import {
-  Image,
-  ScrollView,
-  StatusBar,
-  View,
-} from "react-native";
-import { styles } from "../../../styles/index.styles";
+import { Image, StatusBar, View } from "react-native";
+import { styles } from "../../../styles/welcome.styles";
 import ComponentHome from "../../components/componentHome";
 
 const images = [
@@ -24,7 +19,7 @@ export default function Welcome() {
       <Stack.Screen options={{ headerShown: false }} />
       <StatusBar hidden />
 
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
         <View style={styles.imgContainer}>
           <Image
             source={randomImage}
@@ -38,11 +33,10 @@ export default function Welcome() {
             style={styles.gradientOverlay}
           />
         </View>
-        <View style={{ paddingHorizontal: 24 }}>
+        <View style={styles.content}>
           <ComponentHome />
-
         </View>
-      </ScrollView>
+      </View>
     </>
   );
 }
