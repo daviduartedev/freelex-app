@@ -1,76 +1,46 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
 import {
   Image,
-  Pressable,
   ScrollView,
-  Text,
+  StatusBar,
   View,
 } from "react-native";
-import CardHero from "../../../components/cardHero";
-import { styles } from "./index.styles";
+import { styles } from "../../../styles/index.styles";
+import ComponentHome from "../../components/componentHome";
 
-export default function Index() {
-  const disabled = true;
+const images = [
+  require("../../../assets/images/bg-home.png"),
+  require("../../../assets/images/bg-home1.png"),
+  require("../../../assets/images/bg-home2.png"),
+];
+
+export default function Welcome() {
+  const randomImage =
+    images[Math.floor(Math.random() * images.length)];
 
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
+      <StatusBar hidden />
+
       <ScrollView contentContainerStyle={styles.container}>
-
-        <View
-          style={styles.imgContainer
-
-          }
-        >
+        <View style={styles.imgContainer}>
           <Image
-            source={require("../../../assets/images/bg-he.jpg")}
+            source={randomImage}
             style={styles.bgImage}
             resizeMode="cover"
           />
+
+          <LinearGradient
+            colors={["transparent", "#FFFFFF"]}
+            locations={[0.45, 1]}
+            style={styles.gradientOverlay}
+          />
         </View>
+        <View style={{ paddingHorizontal: 24 }}>
+          <ComponentHome />
 
-
-        <View>
-          <Text style={styles.title}>Sua saúde, seus dados.</Text>
-
-          <Text style={styles.subtitle}>
-            {
-              "Um espaço seguro para organizar seu\nhistórico de saúde. Simples, visual e\nhumano."
-            }
-          </Text>
-        </View>
-
-        <View
-          style={{
-            height: 1,
-            backgroundColor: "#E5E7EB",
-            marginVertical: 24,
-            opacity: 0.6,
-          }}
-        />
-
-        <View style={styles.sectionSpacing}>
-          <CardHero />
-        </View>
-
-        <View style={styles.sectionSpacing}>
-          <Pressable 
-            
-            style={({ pressed }) => [
-              styles.button,
-              pressed && styles.buttonPressed,
-            ]}
-            disabled={disabled}
-          >
-            <Text style={styles.buttonText}>Começar</Text>
-          </Pressable>
-        </View>
-
-        <View>
-          <Text style={styles.disclaimer}>
-            Este aplicativo não realiza diagnósticos médicos nem substitui
-            profissionais de saúde.
-          </Text>
         </View>
       </ScrollView>
     </>
