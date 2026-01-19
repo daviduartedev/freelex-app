@@ -1,0 +1,88 @@
+import { Ionicons } from "@expo/vector-icons";
+import { Stack, useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View
+} from "react-native";
+import styles from "../../../styles/login.styles";
+
+export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  return (
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <ScrollView contentContainerStyle={styles.container}>
+
+        <Text style={styles.header}>Acesso ao befree</Text>
+
+        <View style={styles.logoWrapper}>
+          <View style={styles.logoBox}>
+            <Image
+              source={{ uri: "https://i.imgur.com/8Km9tLL.png" }}
+              style={styles.logo}
+            />
+          </View>
+        </View>
+
+        <Text style={styles.title}>Bem-vindo de volta</Text>
+        <Text style={styles.subtitle}>
+          Acesse sua conta para gerenciar turnos
+        </Text>
+
+        <View style={styles.field}>
+          <Text style={styles.label}>E-mail ou CPF</Text>
+          <View style={styles.inputContainer}>
+            <Ionicons name="mail-outline" size={18} color="#9CA3AF" />
+            <TextInput
+              placeholder="Digite seu e-mail ou CPF"
+              placeholderTextColor="#9CA3AF"
+              style={styles.input}
+            />
+          </View>
+        </View>
+
+        <View style={styles.field}>
+          <Text style={styles.label}>Senha</Text>
+          <View style={styles.inputContainer}>
+            <Ionicons name="lock-closed-outline" size={18} color="#9CA3AF" />
+            <TextInput
+              placeholder="Digite sua senha"
+              placeholderTextColor="#9CA3AF"
+              secureTextEntry={!showPassword}
+              style={styles.input}
+            />
+            <Pressable onPress={() => setShowPassword(!showPassword)}>
+              <Ionicons
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
+                size={18}
+                color="#9CA3AF"
+              />
+            </Pressable>
+          </View>
+        </View>
+
+        <Pressable>
+          <Text style={styles.forgot}>Esqueci minha senha</Text>
+        </Pressable>
+
+        <Pressable style={styles.button}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </Pressable>
+        <Pressable onPress={() => router.push("/SignIn")}>
+          <Text style={styles.footer}>
+            Ainda não tem uma conta?{" "}
+            <Text style={styles.link}>Cadastre-se</Text>
+          </Text>
+        </Pressable>
+
+      </ScrollView>
+    </>
+  );
+}
