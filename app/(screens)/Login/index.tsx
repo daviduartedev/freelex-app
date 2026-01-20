@@ -2,7 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  Image,
   Pressable,
   ScrollView,
   Text,
@@ -19,17 +18,6 @@ export default function Login() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <ScrollView contentContainerStyle={styles.container}>
-
-        <Text style={styles.header}>Acesso ao befree</Text>
-
-        <View style={styles.logoWrapper}>
-          <View style={styles.logoBox}>
-            <Image
-              source={{ uri: "https://i.imgur.com/8Km9tLL.png" }}
-              style={styles.logo}
-            />
-          </View>
-        </View>
 
         <Text style={styles.title}>Bem-vindo de volta</Text>
         <Text style={styles.subtitle}>
@@ -75,7 +63,7 @@ export default function Login() {
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Entrar</Text>
         </Pressable>
-        <Pressable onPress={() => router.push("/SignIn")}>
+        <Pressable onPress={() => router.push("/SignUp/step-1-personal")}>
           <Text style={styles.footer}>
             Ainda não tem uma conta?{" "}
             <Text style={styles.link}>Cadastre-se</Text>

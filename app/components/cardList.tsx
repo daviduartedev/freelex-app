@@ -28,7 +28,6 @@ export default function cardList({
 }: cardListProps) {
   return (
     <View style={styles.card}>
-      {/* IMAGEM */}
       <View style={styles.imageContainer}>
         <Image source={imagem} style={styles.image} resizeMode="cover" />
 
@@ -37,9 +36,7 @@ export default function cardList({
         </View>
       </View>
 
-      {/* CONTEÚDO */}
       <View style={styles.content}>
-        {/* HEADER */}
         <View style={styles.header}>
           <View style={styles.headerText}>
             <Text style={styles.title}>{titulo}</Text>
@@ -52,7 +49,6 @@ export default function cardList({
           </View>
         </View>
 
-        {/* INFO */}
         <View style={styles.infoRow}>
           <Text style={styles.infoText}>
             📍 {local} • {distancia}
@@ -65,7 +61,6 @@ export default function cardList({
           </Text>
         </View>
 
-        {/* CTA */}
         <Pressable
           onPress={onPress}
           style={({ pressed }) => [

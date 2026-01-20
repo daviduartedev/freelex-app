@@ -146,9 +146,6 @@ export default function Home() {
                             />
                         ),
                         onPress: () => { },
-
-
-
                     },
                     {
                         key: "alerts",
