@@ -47,7 +47,13 @@ export default StyleSheet.create({
     color: "#111827",
     textAlign: "center",
   },
-
+   htitle: {
+    fontSize: 40,
+    fontWeight: "700",
+    color: "#111827",
+    textAlign: "center",
+    marginBottom: 120
+  },
   subtitle: {
     fontSize: 14,
     color: "#6B7280",

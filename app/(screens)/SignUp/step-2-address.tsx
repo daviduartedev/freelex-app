@@ -2,11 +2,11 @@ import AppHeader from "@/app/components/header";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import {
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    View
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View
 } from "react-native";
 import styles from "../../../styles/signUp.step2.styles";
 
@@ -108,6 +108,7 @@ export default function Step2Address() {
 
           <Pressable
             style={styles.nextButton}
+            onPress={() => router.push("/(screens)/SignUp/step-3-skills")}
           >
             <Text style={styles.nextText}>Próximo</Text>
           </Pressable>

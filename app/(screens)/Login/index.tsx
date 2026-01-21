@@ -18,6 +18,7 @@ export default function Login() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.htitle}>befree</Text>
 
         <Text style={styles.title}>Bem-vindo de volta</Text>
         <Text style={styles.subtitle}>
