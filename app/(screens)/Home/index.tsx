@@ -1,21 +1,40 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     FlatList,
     Image,
     Pressable,
     Text,
     View,
+    ActivityIndicator,
 } from "react-native";
 import { styles } from "../../../styles/home.styles";
 import AppFooter from "../../components/footer";
 import AppHeader from "../../components/header";
-import { categories, turns } from "./mock";
+import { categories } from "./mock";
+import api from "@/app/services/api";
 
 export default function Home() {
     const router = useRouter();
     const [activeCategory, setActiveCategory] = useState("all");
+    const [turns, setTurns] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchShifts();
+    }, []);
+
+    const fetchShifts = async () => {
+        try {
+            const response = await api.get("/shifts");
+            setTurns(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar turnos:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const data =
         activeCategory === "all"
@@ -74,9 +93,21 @@ export default function Home() {
                 keyExtractor={(item) => item.id}
                 contentContainerStyle={styles.list}
                 showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                    !loading ? (
+                        <View style={{ padding: 20, alignItems: "center" }}>
+                            <Text style={{ color: "#6b7280" }}>Nenhum turno encontrado.</Text>
+                        </View>
+                    ) : (
+                        <ActivityIndicator size="large" color="#2563EB" style={{ marginTop: 20 }} />
+                    )
+                }
                 renderItem={({ item }) => (
                     <View style={styles.card}>
-                        <Image source={{ uri: item.image }} style={styles.image} />
+                        <Image
+                            source={{ uri: item.imageUrl || "https://images.unsplash.com/photo-1516788875874-c5912cae7b43" }}
+                            style={styles.image}
+                        />
 
                         <View style={styles.badge}>
                             <Text style={styles.badgeText}>
@@ -88,20 +119,20 @@ export default function Home() {
                             <View style={styles.row}>
                                 <View style={styles.info}>
                                     <Text style={styles.title}>{item.title}</Text>
-                                    <Text style={styles.subtitle}>{item.place}</Text>
+                                    <Text style={styles.subtitle}>{item.place || "Empresa Local"}</Text>
                                 </View>
 
                                 <View style={styles.priceBox}>
-                                    <Text style={styles.price}>{item.price}</Text>
-                                    <Text style={styles.total}>{item.total}</Text>
+                                    <Text style={styles.price}>{`R$ ${item.value}/h`}</Text>
+                                    <Text style={styles.total}>{`TOTAL R$ ${item.value * 4}`}</Text>
                                 </View>
                             </View>
 
                             <Text style={styles.meta}>
-                                {item.location} • {item.distance}
+                                {item.location || "São Paulo, SP"} • {item.distance || "Para você"}
                             </Text>
                             <Text style={styles.meta}>
-                                {item.time} • {item.hours}
+                                {new Date(item.date).toLocaleDateString('pt-BR')} • {item.startTime} - {item.endTime}
                             </Text>
 
                             <Pressable

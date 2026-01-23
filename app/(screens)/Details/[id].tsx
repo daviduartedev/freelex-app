@@ -1,24 +1,50 @@
 import AppHeader from "@/app/components/header";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View, ActivityIndicator } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { styles } from "../../../styles/id.styles";
-import { turns } from "../Home/mock";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConfirmApplication from "@/app/components/bottomSheet";
 import RequirementsCard from "@/app/components/RequirementsCard";
-
+import api from "@/app/services/api";
 
 export default function Details() {
     const router = useRouter();
     const { id } = useLocalSearchParams<{ id: string }>();
     const [showConfirm, setShowConfirm] = useState(false);
+    const [item, setItem] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
-    const item = turns.find((turn) => turn.id === id);
+    useEffect(() => {
+        if (id) fetchShift();
+    }, [id]);
+
+    const fetchShift = async () => {
+        try {
+            const response = await api.get(`/shifts/${id}`);
+            setItem(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar detalhes do turno:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <View style={[styles.container, { justifyContent: "center" }]}>
+                <ActivityIndicator size="large" color="#2563EB" />
+            </View>
+        );
+    }
 
     if (!item) {
-        return null;
+        return (
+            <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
+                <Text>Turno não encontrado.</Text>
+            </View>
+        );
     }
 
     return (
@@ -39,7 +65,10 @@ export default function Details() {
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.imageCard}>
-                    <Image source={{ uri: item.image }} style={styles.image} />
+                    <Image
+                        source={{ uri: item.imageUrl || "https://images.unsplash.com/photo-1516788875874-c5912cae7b43" }}
+                        style={styles.image}
+                    />
 
                     <View style={styles.imageOverlay}>
                         <View style={styles.badge}>
@@ -51,7 +80,7 @@ export default function Details() {
                         <View style={styles.dateRow}>
                             <Ionicons name="calendar-outline" size={14} color="#E5E7EB" />
                             <Text style={styles.dateText}>
-                                Sábado, 26 de Outubro
+                                {new Date(item.date).toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
                             </Text>
                         </View>
                     </View>
@@ -60,14 +89,14 @@ export default function Details() {
                 <View style={styles.infoRow}>
                     <View style={styles.infoCard}>
                         <Text style={styles.infoLabel}>VALOR LÍQUIDO</Text>
-                        <Text style={styles.infoValuePrimary}>R$ 180,00</Text>
+                        <Text style={styles.infoValuePrimary}>{`R$ ${item.value},00`}</Text>
                         <Text style={styles.infoSubPositive}>+ Taxa de Serviço</Text>
                     </View>
 
                     <View style={styles.infoCard}>
                         <Text style={styles.infoLabel}>DURAÇÃO</Text>
-                        <Text style={styles.infoValue}>06 Horas</Text>
-                        <Text style={styles.infoSub}>18:00 às 00:00</Text>
+                        <Text style={styles.infoValue}>04 Horas</Text>
+                        <Text style={styles.infoSub}>{`${item.startTime} às ${item.endTime}`}</Text>
                     </View>
                 </View>
 
@@ -114,14 +143,12 @@ export default function Details() {
                     <View style={styles.taskItem}>
                         <Ionicons name="checkmark-circle" size={16} color="#2563EB" />
                         <Text style={styles.taskText}>
-                            Organização e limpeza da praça de atendimento durante o turno.
+                            {item.description || "Nenhuma descrição detalhada fornecida."}
                         </Text>
                     </View>
                 </View>
                 <View style={styles.section}>
-
-
-                    <RequirementsCard />
+                    <RequirementsCard requirements={item.requirements} />
                 </View>
 
                 <View style={styles.section}>
@@ -130,7 +157,7 @@ export default function Details() {
                     <View style={styles.companyRow}>
                         <View>
                             <Text style={styles.companyName}>
-                                L’Entrecôte Paris
+                                {item.company?.name || "Empresa Parceira"}
                             </Text>
                             <Text style={styles.companyRating}>
                                 ⭐ 4.9 (128 avaliações)

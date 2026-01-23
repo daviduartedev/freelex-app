@@ -14,6 +14,7 @@ import { router } from "expo-router";
 
 export default function CreateShift() {
     const [title, setTitle] = useState("");
+    const [category, setCategory] = useState("garcom");
     const [date, setDate] = useState("05/12/2023");
     const [startTime, setStartTime] = useState("08:00");
     const [endTime, setEndTime] = useState("17:00");
@@ -122,7 +123,18 @@ export default function CreateShift() {
 
             {/* Button */}
             <TouchableOpacity
-                onPress={() => router.push("/(screens)/CreateShift/step-2.index")}
+                onPress={() => router.push({
+                    pathname: "/(screens)/CreateShift/step-2.index",
+                    params: {
+                        title,
+                        category,
+                        date,
+                        startTime,
+                        endTime,
+                        value,
+                        description
+                    }
+                })}
                 style={styles.button}>
                 <Text style={styles.buttonText}>Próximo →</Text>
             </TouchableOpacity>

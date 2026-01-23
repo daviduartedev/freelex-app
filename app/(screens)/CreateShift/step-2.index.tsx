@@ -7,14 +7,21 @@ import {
     ScrollView,
     StyleSheet,
     Switch,
+    Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "../../../styles/createShift-step2.styles";
 import RequirementItem from "@/app/components/RequirementItem";
 import AppHeader from "@/app/components/header";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import api from "@/app/services/api";
+
+import { useUser } from "@/app/context/UserContext";
 
 export default function CreateShiftStep2() {
+    const params = useLocalSearchParams();
+    const { user } = useUser();
+
     const [cep, setCep] = useState("");
     const [address, setAddress] = useState("");
     const [professionals, setProfessionals] = useState("1");
@@ -23,6 +30,49 @@ export default function CreateShiftStep2() {
     const [experience, setExperience] = useState(true);
     const [documents, setDocuments] = useState(false);
     const [recurring, setRecurring] = useState(false);
+
+    async function publishShift() {
+        try {
+            const requirements = [];
+            if (uniform) requirements.push("Uniforme próprio");
+            if (experience) requirements.push("Experiência prévia");
+            if (documents) requirements.push("Documentação em dia");
+
+            if (!user?.id) {
+                Alert.alert("Erro", "Sessão expirada. Faça login novamente.");
+                return;
+            }
+
+            const companyId = user.id;
+
+            // Basic date conversion for demo purposes (assuming format DD/MM/YYYY)
+            const [day, month, year] = String(params.date || "05/12/2023").split("/");
+            const isoDate = new Date(`${year}-${month}-${day}T12:00:00Z`).toISOString();
+
+            const finalData = {
+                title: String(params.title || ""),
+                category: String(params.category || "garcom"),
+                description: String(params.description || ""),
+                date: isoDate,
+                startTime: String(params.startTime || ""),
+                endTime: String(params.endTime || ""),
+                value: parseFloat(String(params.value || "0")),
+                requirements: requirements,
+                companyId: companyId,
+            };
+
+            console.log("Enviando dados:", JSON.stringify(finalData, null, 2));
+
+            const response = await api.post("/shifts", finalData);
+
+            Alert.alert("Sucesso", "Turno publicado com sucesso!");
+            router.replace("/(screens)/CompanyHome");
+            return response.data;
+        } catch (error: any) {
+            Alert.alert("Erro", "Não foi possível publicar o turno.");
+            console.error("Erro da requisição:", error.response?.data || error.message);
+        }
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -127,7 +177,7 @@ export default function CreateShiftStep2() {
             </View>
 
             {/* Button */}
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={publishShift} style={styles.button}>
                 <Text style={styles.buttonText}>Publicar Turno</Text>
             </TouchableOpacity>
         </ScrollView>
