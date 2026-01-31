@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 
 type Props = {
     onCancel?: () => void;
+    onConfirm?: () => Promise<void> | void;
 };
 
 /**
@@ -19,7 +20,7 @@ const getCheckIcon = (checked: boolean, required: boolean) => {
     return checked ? "checkbox" : "square-outline";
 };
 
-export default function ConfirmApplication({ onCancel }: Props) {
+export default function ConfirmApplication({ onCancel, onConfirm }: Props) {
     const router = useRouter();
 
     const [hasAvailability, setHasAvailability] = useState(false);
@@ -29,10 +30,14 @@ export default function ConfirmApplication({ onCancel }: Props) {
     // Apenas os obrigatórios bloqueiam a confirmação
     const canConfirm = hasAvailability && hasUniform;
 
-    const onConfirm = () => {
+    const handleConfirm = async () => {
         if (!canConfirm) return;
 
-        router.replace("/(screens)/ApplicationSuccess");
+        if (onConfirm) {
+            await onConfirm();
+        } else {
+            router.replace("/(screens)/ApplicationSuccess");
+        }
     };
 
     return (
@@ -118,7 +123,7 @@ export default function ConfirmApplication({ onCancel }: Props) {
                         !canConfirm && styles.primaryButtonDisabled,
                     ]}
                     disabled={!canConfirm}
-                    onPress={onConfirm}
+                    onPress={handleConfirm}
                 >
                     <Text style={styles.primaryButtonText}>
                         Confirmar e Enviar

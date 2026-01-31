@@ -51,7 +51,10 @@ export default function ApplicationSuccess() {
                 />
             </View>
 
-            <Pressable style={styles.primaryButton}>
+            <Pressable
+                style={styles.primaryButton}
+                onPress={() => router.push("/(screens)/Worker/MyApplications")}
+            >
                 <Text style={styles.primaryButtonText}>Ver Minha Agenda</Text>
             </Pressable>
 

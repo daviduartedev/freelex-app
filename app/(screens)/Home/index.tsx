@@ -185,7 +185,11 @@ export default function Home() {
                                 color={active ? "#2563EB" : "#9CA3AF"}
                             />
                         ),
-                        onPress: () => { },
+                        onPress: () => {
+                            if (user?.role === "WORKER") {
+                                router.push("/(screens)/Worker/MyApplications");
+                            }
+                        },
                     },
                     {
                         key: "alerts",

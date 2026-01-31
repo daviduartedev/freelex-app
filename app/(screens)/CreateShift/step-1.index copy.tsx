@@ -11,6 +11,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { styles } from "../../../styles/createShift.styles copy";
 import AppHeader from "@/app/components/header";
 import { router } from "expo-router";
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from "react-native";
 
 export default function CreateShift() {
     const [title, setTitle] = useState("");
@@ -20,6 +22,20 @@ export default function CreateShift() {
     const [endTime, setEndTime] = useState("17:00");
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
+    const [image, setImage] = useState<string | null>(null);
+
+    const pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 0.8,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
 
     return (
         <ScrollView style={styles.container}>
@@ -108,6 +124,21 @@ export default function CreateShift() {
                 </View>
             </View>
 
+            {/* Image Picker */}
+            <View style={styles.field}>
+                <Text style={styles.label}>Imagem de capa (Opcional)</Text>
+                <TouchableOpacity onPress={pickImage} style={[styles.inputWrapper, { height: 120, justifyContent: 'center', alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#cbd5e1' }]}>
+                    {image ? (
+                        <Image source={{ uri: image }} style={{ width: '100%', height: '100%', borderRadius: 8 }} />
+                    ) : (
+                        <>
+                            <Ionicons name="image-outline" size={32} color="#2563eb" />
+                            <Text style={{ color: '#64748b', marginTop: 8 }}>Toque para selecionar uma imagem</Text>
+                        </>
+                    )}
+                </TouchableOpacity>
+            </View>
+
             {/* Description */}
             <View style={styles.field}>
                 <Text style={styles.label}>Descrição das atividades</Text>
@@ -132,7 +163,8 @@ export default function CreateShift() {
                         startTime,
                         endTime,
                         value,
-                        description
+                        description,
+                        image: image || ""
                     }
                 })}
                 style={styles.button}>

@@ -14,7 +14,7 @@ import { styles } from "../../../styles/createShift-step2.styles";
 import RequirementItem from "@/app/components/RequirementItem";
 import AppHeader from "@/app/components/header";
 import { router, useLocalSearchParams } from "expo-router";
-import api from "@/app/services/api";
+import api, { uploadImage } from "@/app/services/api";
 
 import { useUser } from "@/app/context/UserContext";
 
@@ -49,6 +49,17 @@ export default function CreateShiftStep2() {
             const [day, month, year] = String(params.date || "05/12/2023").split("/");
             const isoDate = new Date(`${year}-${month}-${day}T12:00:00Z`).toISOString();
 
+            let imageUrl = null;
+            if (params.image) {
+                try {
+                    const uploadResult = await uploadImage(String(params.image));
+                    imageUrl = uploadResult.url;
+                } catch (uploadError) {
+                    console.error("Erro no upload da imagem:", uploadError);
+                    // Procede mesmo sem imagem, ou poderia alertar o usuário
+                }
+            }
+
             const finalData = {
                 title: String(params.title || ""),
                 category: String(params.category || "garcom"),
@@ -59,6 +70,7 @@ export default function CreateShiftStep2() {
                 value: parseFloat(String(params.value || "0")),
                 requirements: requirements,
                 companyId: companyId,
+                imageUrl: imageUrl,
             };
 
             console.log("Enviando dados:", JSON.stringify(finalData, null, 2));

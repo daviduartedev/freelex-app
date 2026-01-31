@@ -1,7 +1,7 @@
 import AppHeader from "@/app/components/header";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Image, Pressable, ScrollView, Text, View, ActivityIndicator } from "react-native";
+import { Image, Pressable, ScrollView, Text, View, ActivityIndicator, Alert } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { styles } from "../../../styles/id.styles";
 import { useEffect, useState } from "react";
@@ -174,8 +174,16 @@ export default function Details() {
                 {showConfirm && (
                     <ConfirmApplication
                         onCancel={() => setShowConfirm(false)}
-                        onConfirm={() => {
-                            setShowConfirm(false);
+                        onConfirm={async () => {
+                            try {
+                                await api.post('/applications', { shiftId: item.id });
+                                Alert.alert("Sucesso", "Sua candidatura foi enviada com sucesso!");
+                                setShowConfirm(false);
+                            } catch (error: any) {
+                                const message = error.response?.data?.message || "Não foi possível enviar sua candidatura.";
+                                Alert.alert("Erro", message);
+                                setShowConfirm(false);
+                            }
                         }}
                     />
                 )}
