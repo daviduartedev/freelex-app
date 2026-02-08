@@ -1,32 +1,43 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    title: {
+    tagline: {
+        color: "#2563EB",
+        fontSize: 12,
+        fontWeight: "700",
+        marginBottom: 8,
+        letterSpacing: 0.5,
+        fontFamily: "SF Pro Text",
+    },
+    Title: {
         color: "#111827",
         fontWeight: "700",
-        fontSize: 32,
-        marginBottom: 12,
-        fontFamily: "Century Gothic",
+        fontSize: 34,
+        fontFamily: "SF Pro Text",
+        marginBottom: 16,
+        lineHeight: 40,
     },
     titleHighlight: {
         color: "#2563EB",
         fontWeight: "700",
-        fontSize: 32,
-        fontFamily: "Century Gothic",
+        fontSize: 34,
+        fontFamily: "SF Pro Text",
+        lineHeight: 40,
     },
     subtitle: {
         color: "#6B7280",
-        fontWeight: "600",
+        fontWeight: "400", // Normal weight
         fontSize: 16,
-        lineHeight: 24,
         fontFamily: "SF Pro Text",
+        marginBottom: 16,
+        lineHeight: 24,
     },
     sectionSpacing: {
-        marginTop: 16,
+        marginTop: 24,
     },
     primaryButton: {
         backgroundColor: "#2563EB",
-        paddingVertical: 14,
+        paddingVertical: 16,
         borderRadius: 10,
         alignItems: "center",
     },
@@ -42,7 +53,7 @@ export const styles = StyleSheet.create({
     secondaryButton: {
         backgroundColor: "#FFFFFF",
         borderRadius: 10,
-        paddingVertical: 14,
+        paddingVertical: 16,
         borderWidth: 1,
         borderColor: "#E5E7EB",
         alignItems: "center", // ✅ igual ao primário

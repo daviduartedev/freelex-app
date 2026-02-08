@@ -13,14 +13,13 @@ export default function ComponentHome({
 
   return (
     <>
-      <View>
-        <Text style={styles.title}>
-          FREE{"\n"}
-          <Text style={styles.titleHighlight}>LEX</Text>
+      <View >
+        <Text style={styles.Title}>
+          Sua liberdade,{"\n"}
+          <Text style={styles.titleHighlight}>seu turno</Text>
         </Text>
-
         <Text style={styles.subtitle}>
-          Transforme tempo livre em oportunidades
+          Conectando profissionais qualificados a empresas que precisam de talento agora.
         </Text>
       </View>
 
@@ -34,7 +33,7 @@ export default function ComponentHome({
           disabled={disabled}
         >
           <Text style={styles.primaryButtonText}>
-            Encontrar Oportunidades →
+            Cadastre-se
           </Text>
         </Pressable>
       </View>
